@@ -1,0 +1,54 @@
+337c4863743b4cd3a76d50923ff8945a
+
+npm install babel-preset-env
+
+Repo: https://github.com/dani882/devops-test-app.git
+
+FROM node:10.13-alpine
+ENV NODE_ENV production
+ENV DEVOPS_TEST_ENV production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
+EXPOSE 3000
+CMD npm start
+
+
+
+# Plugin installed
+Jenkins.instance.pluginManager.plugins.sort { it.getDisplayName() }.each{
+  plugin -> 
+    println ("${plugin.getDisplayName()} (${plugin.getShortName()}): ${plugin.getVersion()}")
+}
+
+
+Application:
+    name: process.env.DEVOPS_TEST_BACKEND_NAME || 'devops-test-backend',
+    env: process.env.DEVOPS_TEST_ENV || 'development',
+    port: parseInt(process.env.DEVOPS_TEST_PORT || 3081, 10),
+    release_version: process.env.DEVOPS_TEST_RELEASE_VERSION || '0.1.0',
+    start_time: Date.now(),
+  },
+
+
+
+
+psql --host=testdb.c0mud4q9s483.us-east-1.rds.amazonaws.com --port=5432 --username=postgres --password=postgres
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EST_DATABASE_HOST || 'devops-global-postgres',
+
