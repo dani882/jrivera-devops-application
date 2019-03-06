@@ -9,17 +9,18 @@ pipeline {
         git branch: 'files', url: 'https://github.com/dani882/jrivera-devops-application.git'
       }
     }
-    stage('Install the nodejs dependencies') {
-       steps {
-        sh 'npm install --production'
-       }
-    }
      stage('Building image') {
       steps{
         script {
-          docker.build registry + ":$BUILD_NUMBER"
+          docker.build "files"+ ":$BUILD_NUMBER"
         }
       }
     }
   }
+ post {
+        always {
+            // make sure that the Docker image is removed
+            sh "docker rmi $IMAGE | true"
+        }
+    }
 }
