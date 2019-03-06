@@ -14,5 +14,12 @@ pipeline {
         sh 'npm install --production'
        }
     }
+     stage('Building image') {
+      steps{
+        script {
+          docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
   }
 }

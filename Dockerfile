@@ -8,9 +8,7 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install && npm install babel-preset-env
-# If you are building your code for production
-# RUN npm ci --only=production
+RUN npm install babel-preset-en && npm ci --only=production 
 
 # Bundle app source
 COPY . .
