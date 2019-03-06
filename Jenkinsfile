@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage('Cloning DevOps-test-app Repo') {
       steps {
-        git 'https://github.com/dani882/devops-test-app.git'
+        git branch: 'files', url: 'https://github.com/dani882/jrivera-devops-application.git'
       }
     }
     stage('Install the nodejs dependencies') {
