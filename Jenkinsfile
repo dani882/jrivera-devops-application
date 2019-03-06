@@ -12,7 +12,7 @@ pipeline {
      stage('Building image') {
       steps{
         script {
-          docker.build "files"+ ":$BUILD_NUMBER"
+          docker.build("files"+ ":$BUILD_NUMBER")
         }
       }
     }
