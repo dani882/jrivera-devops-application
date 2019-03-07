@@ -29,7 +29,7 @@ ENV DEVOPS_TEST_DATABASE_HOST="${DEVOPS_TEST_DATABASE_HOST}"
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+COPY package*.json /usr/src/app/
 
 # Create app directory
 WORKDIR /usr/src/app
