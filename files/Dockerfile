@@ -39,6 +39,6 @@ RUN npm install && npm install babel-preset-env
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY files/. .
 EXPOSE 3081
 CMD ["npm", "start"]
