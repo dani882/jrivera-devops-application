@@ -26,13 +26,13 @@ ENV DEVOPS_TEST_DATABASE_USERNAME="${DEVOPS_TEST_DATABASE_USERNAME}"
 ENV DEVOPS_TEST_DATABASE_PASSWORD="${DEVOPS_TEST_DATABASE_PASSWORD}"
 ENV DEVOPS_TEST_DATABASE_HOST="${DEVOPS_TEST_DATABASE_HOST}"
 
-# Create app directory
-WORKDIR /usr/src/app
-
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+COPY package*.json /usr/src/app/
+
+# Create app directory
+WORKDIR /usr/src/app
 
 RUN npm install && npm install babel-preset-env
 # If you are building your code for production
