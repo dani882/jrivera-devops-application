@@ -2,9 +2,9 @@ pipeline {
   agent any
  
       parameters {
-        string(defaultValue: true, description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
-        string(defaultValue: true, description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
-        string(defaultValue: true, description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
+        string(description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
+        string(description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
+        string(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
     }
   
   environment {
