@@ -22,12 +22,12 @@ pipeline {
   }
  
   stages {
-    stage('Cloning DevOps-test-app Repo') {
+    stage('Clone DevOps-test-app Repo') {
       steps {
         git branch: 'files', url: 'https://github.com/dani882/jrivera-devops-application.git'
       }
     }
-    stage('Building image') {
+    stage('Build image') {
       steps{
         script {
         //As we will have production perspective, we will use a fixed tag
@@ -40,7 +40,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy Image') {
+    stage('Push Image to Registry') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
@@ -53,7 +53,7 @@ pipeline {
   post {
     always {
       // make sure that the Docker image is removed
-      sh "docker rmi $registry:$5"
+      sh "docker rmi $registry:5"
     }
   }
 }
