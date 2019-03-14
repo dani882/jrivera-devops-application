@@ -10,7 +10,7 @@ pipeline {
 
   //Environment  
   environment {
-    registry = ${params.DOCKERHUB_REGISTRY}
+    registry = "${params.DOCKERHUB_REGISTRY}"
     /* Add user and password credentials in Jenkins following these steps:
     1- Go to Manage Jenkins in the left panel of the screen
     2- Choose Configure System
