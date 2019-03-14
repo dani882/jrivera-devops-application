@@ -1,11 +1,10 @@
 pipeline {
   agent any
- 
-      parameters {
-        string(description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
-        string(description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
-        string(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
-    }
+  parameters {
+    string(description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
+    string(description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
+    string(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
+  }
   
   environment {
     registry = "jrdevers/devops-aplication-files"
@@ -14,32 +13,37 @@ pipeline {
   }
  
   stages {
-    stage('Cloning DevOps-test-app Repo') { steps {
+    stage('Cloning DevOps-test-app Repo') {
+      steps {
         git branch: 'files', url: 'https://github.com/dani882/jrivera-devops-application.git'
       }
     }
-     stage('Building image') {
+    stage('Building image') {
       steps{
         script {
-          sh "echo param is ${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME}"
-          dockerImage = docker.build(registry + ":$BUILD_NUMBER", "-f files/Dockerfile --build-arg ${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME} --build-arg ${params.DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY} --build-arg ${params.DEVOPS_TEST_BACKEND_AWS_SECRET_KEY} --build-arg DEVOPS_TEST_BACKEND_AWS_PREFIX='' --build-arg DEVOPS_TEST_BACKEND_AWS_REGION='us-east-1' .")
+          dockerImage = docker.build(registry + ":$BUILD_NUMBER", "-f files/Dockerfile 
+          --build-arg DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME=${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME} 
+          --build-arg DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY=${params.DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY} 
+          --build-arg DEVOPS_TEST_BACKEND_AWS_SECRET_KEY=${params.DEVOPS_TEST_BACKEND_AWS_SECRET_KEY} 
+          --build-arg DEVOPS_TEST_BACKEND_AWS_PREFIX='' 
+          --build-arg DEVOPS_TEST_BACKEND_AWS_REGION='us-east-1' .")
         }
       }
     }
     stage('Deploy Image') {
-  steps{
-    script {
-      docker.withRegistry( '', registryCredential ) {
-        dockerImage.push()
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
       }
     }
   }
-  }
-  }
- post {
-        always {
-            // make sure that the Docker image is removed
-            sh "docker rmi $registry:$BUILD_NUMBER"
-        }
+  post {
+    always {
+      // make sure that the Docker image is removed
+      sh "docker rmi $registry:$BUILD_NUMBER"
     }
+  }
 }
