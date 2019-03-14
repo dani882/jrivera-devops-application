@@ -21,11 +21,11 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build(registry + ":$BUILD_NUMBER", "-f files/Dockerfile 
-          --build-arg DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME=${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME} 
-          --build-arg DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY=${params.DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY} 
-          --build-arg DEVOPS_TEST_BACKEND_AWS_SECRET_KEY=${params.DEVOPS_TEST_BACKEND_AWS_SECRET_KEY} 
-          --build-arg DEVOPS_TEST_BACKEND_AWS_PREFIX='' 
+          dockerImage = docker.build(registry + ":$BUILD_NUMBER", "-f files/Dockerfile \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME=${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY=${params.DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_SECRET_KEY=${params.DEVOPS_TEST_BACKEND_AWS_SECRET_KEY} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_PREFIX='' \
           --build-arg DEVOPS_TEST_BACKEND_AWS_REGION='us-east-1' .")
         }
       }
