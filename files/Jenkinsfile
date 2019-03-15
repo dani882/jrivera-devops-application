@@ -1,0 +1,59 @@
+pipeline {
+  agent any
+
+    parameters {
+    string(description: 'Dockerhub URL/image. Example: jrdevers/devops-aplication-files', name: 'DOCKERHUB_REGISTRY')
+    string(description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
+    string(description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
+    string(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
+  }
+
+  //Environment  
+  environment {
+    registry = "${params.DOCKERHUB_REGISTRY}"
+    /* Add dockerhub user and password credentials in Jenkins following these steps:
+    1- Go to Manage Jenkins in the left panel of the screen
+    2- Choose Configure System
+    3- In the Pipeline Model Definition Section, press Add button and Jenkins
+    4- Type your Dockerhub credentials and type 'dockerhub' as ID
+     */
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+ 
+  stages {
+    stage('Clone DevOps-test-app Repo') {
+      steps {
+        git branch: 'files', url: 'https://github.com/dani882/jrivera-devops-application.git'
+      }
+    }
+    stage('Build image') {
+      steps{
+        script {
+        //As we will have production perspective, we will use a fixed tag
+          dockerImage = docker.build(registry + ":5", "-f files/Dockerfile \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME=${params.DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY=${params.DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_SECRET_KEY=${params.DEVOPS_TEST_BACKEND_AWS_SECRET_KEY} \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_PREFIX='' \
+          --build-arg DEVOPS_TEST_BACKEND_AWS_REGION='us-east-1' .")
+        }
+      }
+    }
+    stage('Push Image to Registry') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+  }
+  post {
+    always {
+      // make sure that the Docker image is removed
+      sh "docker rmi $registry:5"
+    }
+  }
+}
