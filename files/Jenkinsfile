@@ -11,7 +11,7 @@ pipeline {
   //Environment  
   environment {
     registry = "${params.DOCKERHUB_REGISTRY}"
-    /* Add user and password credentials in Jenkins following these steps:
+    /* Add dockerhub user and password credentials in Jenkins following these steps:
     1- Go to Manage Jenkins in the left panel of the screen
     2- Choose Configure System
     3- In the Pipeline Model Definition Section, press Add button and Jenkins
