@@ -5,7 +5,7 @@ pipeline {
     string(description: 'Dockerhub URL/image. Example: jrdevers/devops-aplication-users', name: 'DOCKERHUB_REGISTRY')
     string(description: 'Database name to be used', name: 'DEVOPS_TEST_DATABASE_NAME')
     string(description: 'AWS RDS username to access postgresql', name: 'DEVOPS_TEST_DATABASE_USERNAME')
-    string(description: 'AWS RDS password to access postgresql', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
+    password(description: 'AWS RDS password to access postgresql', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
     string(description: 'AWS RDS endpoint', name: 'DEVOPS_TEST_DATABASE_HOST')
   }
 
