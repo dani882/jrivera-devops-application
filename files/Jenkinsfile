@@ -28,7 +28,6 @@ pipeline {
       }
     }
     stage('Build image') {
-      agent {docker { image 'docker:stable-dind' }}
       steps{
         script {
         //As we will have production perspective, we will use a fixed tag
