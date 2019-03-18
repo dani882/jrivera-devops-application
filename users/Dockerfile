@@ -27,5 +27,7 @@ RUN npm install && npm install babel-preset-env
 
 # Bundle app source
 COPY users/. .
+# Run migrations and seeders
+RUN npm run migrate-up
 EXPOSE 3081
 CMD ["npm", "start"]
