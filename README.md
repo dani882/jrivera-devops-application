@@ -8,20 +8,6 @@ The application consist in two general endpoints, these are `GET /users` and `GE
 
 
 
-### Endpoint list for AWS
-
-| HTTP method | Endpoint |
-| ---- | --------------- |
-| GET | <url:3081>/users |
-| GET | <url:3081>/files |
-
-
-### Endpoint list for local
-
-| HTTP method | Endpoint |
-| ---- | --------------- |
-| GET | <localhost:3081>/users |
-| GET | <localhost:3082>/files |
 
 
 ### Endpoint list
@@ -36,7 +22,7 @@ The application consist in two general endpoints, these are `GET /users` and `GE
 
 ### Endpoints description
 
-* `GET 3081:/users`
+* `GET /users`
 
 This endpoint returns a fixed number of users (2) registered in the postgres database with the following structure:
 
@@ -65,7 +51,7 @@ This endpoint returns a fixed number of users (2) registered in the postgres dat
 }
 ```
 
-* `GET 3081:/files`
+* `GET /files`
 
 This endpoint returns the total number of items and the name of the files (2) stored in a s3 bucket with the following structure:
 
@@ -135,6 +121,15 @@ This endpoint returns the current service uptime and dependencies readiness
 
 ### AWS environment development/deployment
 
+
+
+### Endpoint list for AWS
+
+| HTTP method | Endpoint |
+| ---- | --------------- |
+| GET | <url:3081>/users |
+| GET | <url:3081>/files |
+
 To run this application in AWS, please follow the tutorial I have made in google docs:
 ```
 https://docs.google.com/document/d/1oeWwSUQEtyzatbwyb0TGnLz7pyaGAuKYKevZxLO81rc/edit?usp=sharing
@@ -151,54 +146,70 @@ You will need the following tools to operate over `devops-test-app`:
 
 ### Local development/deployment
 
-To run this application locally, please execute the following commands in your terminal:
+### Endpoint list for local
 
-- Change to `devops-test-app` root directory
+| HTTP method | Endpoint |
+| ---- | --------------- |
+| GET | <localhost:3081>/users |
+| GET | <localhost:3082>/files |
 
-```bash
-$ cd devops-test-app
-```
 
-- Install the nodejs dependencies
+#### Requirements
 
-```bash
-$ npm install
-```
+You will need the following tools to build the aplication locally:
 
-- Create a postgres database for the application
+- `docker`
+- `docker-compose`
 
-```bash
-postgres=# CREATE DATABASE testdb;
 
-```
+Installing docker-compose
 
-- Run migrations and seeders
+Go to the <a href="https://github.com/docker/compose/releases" target="_blank">repository release page</a>.
 
-```bash
-$ npm run migrate-up
-```
+Enter the `curl` command in your termial.
 
-- Run the application
+     The command has the following format:
 
-```bash
-$ npm run start
-```
+        curl -L https://github.com/docker/compose/releases/download/VERSION_NUM/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+   
+     If you have problems installing with `curl`, you can use `pip` instead: `pip install -U docker-compose`
+      
+Apply executable permissions to the binary:
 
-### Unit testing
+        $ chmod +x /usr/local/bin/docker-compose
 
-To run applications tests, please execute the following commands in your terminal:
 
-- Change to `devops-test-app` root directory
+To run the microservice locally you need to execute docker-compose command in both folders(users and files), please execute the following commands in your terminal:
+
+- Change to `jrivera-devops-application` root directory
 
 ```bash
-$ cd devops-test-app
+$ cd files
+$ docker-compose up -d --build --force-recreate
 ```
-
-- run unit tests
+Note: you need to provide credentials and add it to .env file for docker-compose read it from there
+- Change to `jrivera-devops-application` root directory
 
 ```bash
-$ npm run test
+$ cd users
+$ docker-compose up -d --build --force-recreate
 ```
+
+Note: you need to provide parameters and add it to .env file for docker-compose read it from there
+
+
+### Testing EndPoints
+Test opening the web browser pointing to ports ex. localhost:3081/users or localhost:3082/
+Also it can be tested using curl command
+```
+curl -v http://localhost:3081/files
+```
+
+```
+curl -v http://localhost:3081/users
+```
+
+
 
 ### Available configuration variables
 
