@@ -2,6 +2,19 @@ FROM node:8-alpine
 
 LABEL maintainer="Jesus Rivera <dani882@gmail.com>"
 
+# Files endpoint Env variables
+ARG DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME
+ARG DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY
+ARG DEVOPS_TEST_BACKEND_AWS_SECRET_KEY
+ARG DEVOPS_TEST_BACKEND_AWS_PREFIX
+ARG DEVOPS_TEST_BACKEND_AWS_REGION
+
+ENV DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME="${DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME}"
+ENV DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY="${DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY}"
+ENV DEVOPS_TEST_BACKEND_AWS_SECRET_KEY="${DEVOPS_TEST_BACKEND_AWS_SECRET_KEY}"
+ENV DEVOPS_TEST_BACKEND_AWS_PREFIX="${DEVOPS_TEST_BACKEND_AWS_PREFIX}"
+ENV DEVOPS_TEST_BACKEND_AWS_REGION="${DEVOPS_TEST_BACKEND_AWS_REGION}"
+
 # Users endpoint Env variables
 ARG DEVOPS_TEST_DATABASE_NAME
 ARG DEVOPS_TEST_DATABASE_USERNAME
@@ -16,7 +29,7 @@ ENV DEVOPS_TEST_DATABASE_HOST="${DEVOPS_TEST_DATABASE_HOST}"
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY users/package*.json /usr/src/app/
+COPY files/package*.json /usr/src/app/
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -26,8 +39,6 @@ RUN npm install && npm install babel-preset-env
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY users/. .
-# Run migrations and seeders
-RUN npm run migrate-up
+COPY files/. .
 EXPOSE 3081
 CMD ["npm", "start"]
