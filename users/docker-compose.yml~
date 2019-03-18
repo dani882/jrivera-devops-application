@@ -1,0 +1,14 @@
+
+13 lines (12 sloc) 262 Bytes
+version: '3'
+services:
+  deploy-node-users:
+    container_name: jrdevers/devops-aplication-users:5
+    build:
+      context: ./
+      args:
+        users_USERNAME: "${DB_USERNAME}"
+        users_PASSWORD: "${DB_PASSWORD}"
+      dockerfile: Dockerfile
+    ports:
+- "3082:3082"
