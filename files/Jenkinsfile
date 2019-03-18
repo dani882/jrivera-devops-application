@@ -5,7 +5,7 @@ pipeline {
     string(description: 'Dockerhub URL/image. Example: jrdevers/devops-aplication-files', name: 'DOCKERHUB_REGISTRY')
     string(description: 'Bucket name to read', name: 'DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME')
     string(description: 'AWS access key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY')
-    password(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
+    string(description: 'AWS secret key for bucket read', name: 'DEVOPS_TEST_BACKEND_AWS_SECRET_KEY')
   }
 
   //Environment  
