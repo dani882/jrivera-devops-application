@@ -8,20 +8,13 @@ The application consist in two general endpoints, these are `GET /users` and `GE
 
 
 
-### Endpoint list for AWS
+### Endpoint list
 
 | HTTP method | Endpoint |
 | ---- | --------------- |
 | GET | <url:3081>/users |
 | GET | <url:3081>/files |
 
-
-### Endpoint list for local
-
-| HTTP method | Endpoint |
-| ---- | --------------- |
-| GET | <localhost:3081>/users |
-| GET | <localhost:3082>/files |
 
 
 ### Endpoint list
