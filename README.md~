@@ -137,6 +137,13 @@ https://docs.google.com/document/d/1oeWwSUQEtyzatbwyb0TGnLz7pyaGAuKYKevZxLO81rc/
 
 =========================
 
+### Requirements
+
+You will need the following tools to operate over `devops-test-app`:
+
+- `nodejs` = 8.11
+- `postgres` >= 9.4
+
 ### Local development/deployment
 
 ### Endpoint list for local
