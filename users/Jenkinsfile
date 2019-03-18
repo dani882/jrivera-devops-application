@@ -1,18 +1,59 @@
 pipeline {
   agent any
- 
-  tools {nodejs "node"}
+
+  parameters {
+    string(description: 'Dockerhub URL/image. Example: jrdevers/devops-aplication-users', name: 'DOCKERHUB_REGISTRY')
+    string(description: 'Database name to be used', name: 'DEVOPS_TEST_DATABASE_NAME')
+    string(description: 'AWS RDS username to access postgresql', name: 'DEVOPS_TEST_DATABASE_USERNAME')
+    password(description: 'AWS RDS password to access postgresql', name: 'DEVOPS_TEST_DATABASE_PASSWORD')
+    string(description: 'AWS RDS endpoint', name: 'DEVOPS_TEST_DATABASE_HOST')
+  }
+
+  //Environment  
+  environment {
+    registry = "${params.DOCKERHUB_REGISTRY}"
+    /* Add dockerhub user and password credentials in Jenkins following these steps:
+    1- Go to Manage Jenkins in the left panel of the screen
+    2- Choose Configure System
+    3- In the Pipeline Model Definition Section, press Add button and Jenkins
+    4- Type your Dockerhub credentials and type 'dockerhub' as ID
+     */
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
  
   stages {
-    stage('Cloning DevOps-test-app Repo') {
+    stage('Clone DevOps-test-app Repo') {
       steps {
-        git 'https://github.com/dani882/devops-test-app.git'
+        git branch: 'users', url: 'https://github.com/dani882/jrivera-devops-application.git'
       }
     }
-    stage('Install the nodejs dependencies') {
-       steps {
-        sh 'npm install --production'
-       }
+    stage('Build image') {
+      steps{
+        script {
+        //As we will have production perspective, we will use a fixed tag
+          dockerImage = docker.build(registry + ":5", "-f users/Dockerfile \
+          --build-arg DEVOPS_TEST_DATABASE_NAME=${params.DEVOPS_TEST_DATABASE_NAME} \
+          --build-arg DEVOPS_TEST_DATABASE_USERNAME=${params.DEVOPS_TEST_DATABASE_USERNAME} \
+          --build-arg DEVOPS_TEST_DATABASE_PASSWORD=${params.DEVOPS_TEST_DATABASE_PASSWORD} \
+          --build-arg DEVOPS_TEST_DATABASE_HOST=${params.DEVOPS_TEST_DATABASE_HOST} .")
+        }
+      }
+    }
+    stage('Push Image to Registry') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+  }
+  post {
+    always {
+      // make sure that the Docker image is removed
+      sh "docker rmi $registry:5"
     }
   }
 }
