@@ -1,0 +1,13 @@
+version: '3'
+services:
+  deploy-node-files:
+    container_name: jrdevers/devops-aplication-files:5
+    build:
+      context: ./
+      args:
+        DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME: "${DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME}"
+        DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY: "${DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY}"
+        DEVOPS_TEST_BACKEND_AWS_SECRET_KEY: "${DEVOPS_TEST_BACKEND_AWS_SECRET_KEY}"
+      dockerfile: Dockerfile
+    ports:
+- "3082:3082"
