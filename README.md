@@ -133,6 +133,15 @@ This endpoint returns the current service uptime and dependencies readiness
 }
 ```
 
+### AWS environment development/deployment
+
+To run this application in AWS, please follow the tutorial I have made in google docs:
+```
+https://docs.google.com/document/d/1oeWwSUQEtyzatbwyb0TGnLz7pyaGAuKYKevZxLO81rc/edit?usp=sharing
+```
+
+=========================
+
 ### Requirements
 
 You will need the following tools to operate over `devops-test-app`:
