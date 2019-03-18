@@ -33,9 +33,9 @@ pipeline {
         script {
         //As we will have production perspective, we will use a fixed tag
           dockerImage = docker.build(registry + ":5", "-f users/Dockerfile \
-          --build-arg DEVOPS_TEST_BACKEND_AWS_USER_BUCKET_NAME=${params.DEVOPS_TEST_DATABASE_NAME} \
-          --build-arg DEVOPS_TEST_BACKEND_AWS_ACCESS_KEY=${params.DEVOPS_TEST_DATABASE_USERNAME} \
-          --build-arg DEVOPS_TEST_BACKEND_AWS_SECRET_KEY=${params.DEVOPS_TEST_DATABASE_PASSWORD} \
+          --build-arg DEVOPS_TEST_DATABASE_NAME=${params.DEVOPS_TEST_DATABASE_NAME} \
+          --build-arg DEVOPS_TEST_DATABASE_USERNAME=${params.DEVOPS_TEST_DATABASE_USERNAME} \
+          --build-arg DEVOPS_TEST_DATABASE_PASSWORD=${params.DEVOPS_TEST_DATABASE_PASSWORD} \
           --build-arg DEVOPS_TEST_DATABASE_HOST=${params.DEVOPS_TEST_DATABASE_HOST} .")
         }
       }
